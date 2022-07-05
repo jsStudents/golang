@@ -3,18 +3,26 @@ package com.hiperskill.cinema;
 import java.util.Arrays;
 import java.util.Scanner;
 
-class Main {
-    static Scanner scanner = new Scanner(System.in);
+public class Main {
+    Scanner scan = new Scanner(System.in);
 
-    static char[][] createField(int rows, int columns) {
-        char[][] field = new char[rows][columns];
-        for (char[] chars : field) {
-            Arrays.fill(chars, 'S');
+    int rows;
+    int columns;
+    int ticketPrice;
+    char[][] field;
+
+
+    public Main(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
+        this.field = new char[rows][columns];
+        for (char[] el :
+                field) {
+            Arrays.fill(el, 'S');
         }
-        return field;
     }
 
-    static void drawTheField(char[][] field, int columns) {
+    public void printField() {
         System.out.println("Cinema:");
         System.out.print("  ");
         for (int i = 0; i < columns; i++) {
@@ -32,59 +40,31 @@ class Main {
         }
     }
 
-    static void findOutTheSizeOfTheCinema(int rows, int columns, char[][] field) {
-//        int income = profitCalculation(rows, columns, field)[0];
-        int priceTicket = profitCalculation(rows, columns, field)[1];
-//        System.out.println("Total income:");
-//        System.out.printf("$%d", income);
-        System.out.printf("Ticket price: $%d\n", priceTicket);
-    }
-
-    static int[] profitCalculation(int rows, int columns, char[][] field) {
-        int firstHalf = rows / 2;
-        int secondHalf = rows - firstHalf;
-        int numberOfSeats = rows * columns;
-        int[] result = new int[2];
-        if (numberOfSeats <= 60) {
-            result[0] = numberOfSeats * 10;
-        } else {
-            result[0] = ((firstHalf * columns) * 10) + ((secondHalf * columns) * 8);
-        }
-        result[1] = priceTicket(field, numberOfSeats, firstHalf);
-        return result;
-    }
-
-    static int priceTicket(char[][] field, int numberOfSeats, int firstHalf) {
+    public void setBuyTicket() {
         System.out.println("Enter a row number:");
-        int rowNumber = scanner.nextInt();
+        int rowNumber = scan.nextInt();
         System.out.println("Enter a seat number in that row:");
-        int columnNumber = scanner.nextInt();
+        int columnNumber = scan.nextInt();
         field[rowNumber - 1][columnNumber - 1] = 'B';
-        StringBuilder str = new StringBuilder(" ");
-        if (numberOfSeats <= 60) {
-            return 10;
+        if ((rows * columns > 60) && (rowNumber > (rows / 2))) {
+            this.ticketPrice = 8;
         } else {
-            for (int i = 0; i < firstHalf; i++) {
-                str.append(Arrays.toString(field[i]));
-            }
-            if (str.toString().contains("B")) {
-                return 10;
-            } else {
-                return 8;
-            }
+            this.ticketPrice = 10;
         }
-
     }
 
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
         int rows, columns;
         System.out.println("Enter the number of rows:");
-        rows = scanner.nextInt();
-        System.out.println("Enter the number of seats in each row:");
-        columns = scanner.nextInt();
-        char[][] field = createField(rows, columns);
-        drawTheField(field, columns);
-        findOutTheSizeOfTheCinema(rows, columns, field);
-        drawTheField(field, columns);
+        rows = scan.nextInt();
+        System.out.println("Enter the number of seats in each row");
+        columns = scan.nextInt();
+        Main field = new Main(rows, columns);
+        field.printField();
+        field.setBuyTicket();
+        System.out.printf("Ticket price: $%d\n", field.ticketPrice);
+        field.printField();
     }
 }
+
