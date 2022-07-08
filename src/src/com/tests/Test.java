@@ -1,25 +1,15 @@
 package com.tests;
 
 
+import java.util.Random;
 
 class Test {
-
-    public static final String DEFAULT_APPLICATION_NAME = "MyDemoApp";
-    public static final int MAX_IMAGE_SIZE_KB = 4096;
-
-    public static String hello = "Hello"; // (1)
-
-    public static void main(String args[]) {
-
-        System.out.println(DEFAULT_APPLICATION_NAME); // (2)
-
-        MAX_IMAGE_SIZE_KB = 2048; // (3)
-
-        printHello(); // (4)
+    public static void main(String[] args) {
+        Random random = new Random();
+        for (int i = 0; i < 11; i++) {
+            System.out.println("nextInt() = " + random.nextInt());
+            System.out.println("nextInt(101) = " + random.nextInt(101));
+            System.out.println("nextInt(50, 100) = " + (random.nextInt(100 - 50 + 1) + 50));
+        }
     }
-
-    private void printHello() {
-        System.out.println(hello); // (5)
-    }
-}
 }
